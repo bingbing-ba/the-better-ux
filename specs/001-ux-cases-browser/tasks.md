@@ -20,11 +20,11 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 [P] Install dependencies: @tanstack/react-query, zustand, @testing-library/react, @testing-library/jest-dom, jest, playwright
+- [x] T001 Create project structure per implementation plan
+- [x] T002 [P] Install dependencies: @tanstack/react-query, zustand, @testing-library/react, @testing-library/jest-dom, jest, playwright
 - [ ] T003 [P] Setup Shadcn UI components: button, card, sidebar, toggle
-- [ ] T004 [P] Configure TanStack Query provider in app/providers.tsx
-- [ ] T005 [P] Create minimal folders: app/ux-cases/_components/, tests/components/, tests/e2e/
+- [x] T004 [P] Configure TanStack Query provider in app/providers.tsx
+- [x] T005 [P] Create minimal folders: app/ux-cases/_components/, tests/components/, tests/e2e/
 - [ ] T006 [P] (Optional later) Create feature-level shared folders only when reused: app/ux-cases/_hooks/, app/ux-cases/_stores/, app/ux-cases/_consts/
 - [ ] T007 [P] (Optional later) Create root-level shared folders only when reused by multiple features: hooks/, stores/, const/
 
