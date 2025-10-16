@@ -44,20 +44,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 ## Project Structure Setup
 
-### 1. Create Global Folders
+### 1. Create Folders (as needed)
 ```bash
-mkdir -p hooks stores const
+# Minimal to start; add more only when reused
+mkdir -p app/ux-cases/_components
+mkdir -p tests/components tests/e2e
 ```
 
-### 2. Create Feature Folder
-```bash
-mkdir -p app/ux-cases/_components app/ux-cases/_hooks app/ux-cases/_stores app/ux-cases/_consts
+### 2. (Optional later) Feature-level shared folders
+Create only when multiple pages under the feature reuse code:
+```
+app/ux-cases/_hooks
+app/ux-cases/_stores
+app/ux-cases/_consts
 ```
 
-### 3. Create Test Folders
-```bash
-mkdir -p tests/components tests/hooks tests/e2e
-```
+### 3. Test Folders
+Already created minimally above; expand as needed.
 
 ## Implementation Steps
 
@@ -65,14 +68,8 @@ mkdir -p tests/components tests/hooks tests/e2e
 Create a simple sidebar with titles and links:
 
 ```typescript
-// const/sidebarItems.ts
-export interface SidebarItem {
-  id: string;
-  title: string;
-  href: string;
-}
-
-export const sidebarItems: SidebarItem[] = [
+// app/ux-cases/_components/Sidebar.tsx (inline items for now)
+const sidebarItems = [
   {
     id: 'image-loading-blurhash',
     title: 'The Image loading UX - Blurhash, that uses from Slack or Discord',
@@ -97,7 +94,6 @@ Create a sidebar component that uses Next.js Link:
 ```typescript
 // app/ux-cases/_components/Sidebar.tsx
 import Link from 'next/link';
-import { sidebarItems } from '@/const/sidebarItems';
 
 export function Sidebar() {
   return (
@@ -205,7 +201,12 @@ Create a simple home page:
 ```typescript
 // app/page.tsx
 import Link from 'next/link';
-import { sidebarItems } from '@/const/sidebarItems';
+// inline or import from a local module later when shared
+const sidebarItems = [
+  { id: 'image-loading-blurhash', title: 'The Image loading UX - Blurhash, that uses from Slack or Discord', href: '/ux-cases/image-loading-blurhash' },
+  { id: 'form-validation', title: 'The Form validation UX - Real-time feedback like Stripe', href: '/ux-cases/form-validation' },
+  { id: 'button-states', title: 'The Button states UX - Loading, disabled, and hover effects', href: '/ux-cases/button-states' },
+];
 
 export default function HomePage() {
   return (

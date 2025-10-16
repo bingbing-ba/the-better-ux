@@ -43,10 +43,8 @@ Build a UX Cases Browser application that allows users to browse educational UX 
 specs/001-ux-cases-browser/
 ├── plan.md              # This file (/speckit.plan command output)
 ├── research.md          # Phase 0 output (/speckit.plan command)
-├── data-model.md        # Phase 1 output (/speckit.plan command)
 ├── quickstart.md        # Phase 1 output (/speckit.plan command)
-├── contracts/           # Phase 1 output (/speckit.plan command)
-└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
+└── tasks.md             # Phase 2 output (/speckit.tasks command)
 ```
 
 ### Source Code (repository root)
@@ -54,52 +52,27 @@ specs/001-ux-cases-browser/
 ```
 app/
 ├── page.tsx                    # Homepage with UX cases browser
-├── layout.tsx                   # Root layout with sidebar
-├── globals.css                  # Global styles
-└── ux-cases/                    # Feature: UX Cases Browser
-    ├── _components/             # Feature-specific components
-    │   ├── CaseSidebar.tsx      # Sidebar navigation
-    │   ├── CaseViewer.tsx       # Main case content area
-    │   ├── DoDontToggle.tsx     # Toggle button component
-    │   └── CaseCard.tsx         # Individual case display
-    ├── _hooks/                  # Feature-specific hooks
-    │   ├── useCaseNavigation.ts # Case navigation logic
-    │   └── useDoDontToggle.ts   # Toggle state management
-    ├── _stores/                  # Feature-specific stores
-    │   └── caseStore.ts         # Case selection state
-    └── _consts/                  # Feature-specific constants
-        └── caseData.ts           # UX case data definitions
+├── layout.tsx                  # Root layout
+├── globals.css                 # Global styles
+└── ux-cases/                   # Feature: UX Cases Browser (fixed route)
+    ├── _components/            # Shared components for this feature (create as needed)
+    └── [case]/                 # Individual cases (variable)
+        └── page.tsx
 
-hooks/                           # Global hooks
-├── useTheme.ts                  # Theme management
-└── useLocalStorage.ts           # Local storage utilities
+lib/                            # Shared utilities (create as needed)
+├── utils.ts
+└── cn.ts
 
-stores/                          # Global stores
-├── uiStore.ts                   # Global UI state
-└── navigationStore.ts           # Navigation state
-
-const/                           # Global constants
-├── routes.ts                    # Route definitions
-└── uiConstants.ts               # UI constants
-
-lib/                            # Shared utilities
-├── utils.ts                     # Utility functions
-└── cn.ts                       # Class name utilities
-
-tests/
-├── __mocks__/                  # Test mocks
-├── components/                  # Component tests
-├── hooks/                       # Hook tests
-└── e2e/                        # E2E tests
+tests/                          # Tests (create as needed)
+├── components/
+└── e2e/
 ```
 
-**Structure Decision**: Next.js App Router with feature-based organization. Global folders at root level, feature folders with underscore prefix to prevent routing conflicts. Follows constitution requirements for TypeScript, Shadcn UI, and state management standards.
+**Structure Decision**: Next.js App Router with feature-based organization. Use underscore folders for non-routable dirs. Apply escalation-by-reuse: page-level first; promote to feature-level; promote to root only when reused by multiple features. No `features/` wrapper in URLs.
 
 ## Phase 1 Complete
 
 ✅ **Research Phase**: All technical unknowns resolved in `research.md`  
-✅ **Data Model**: Complete data structures defined in `data-model.md`  
-✅ **API Contracts**: All interfaces and contracts defined in `contracts/api-contracts.md`  
 ✅ **Quickstart Guide**: Implementation guide created in `quickstart.md`  
 ✅ **Agent Context**: Cursor IDE context updated with new technologies  
 
