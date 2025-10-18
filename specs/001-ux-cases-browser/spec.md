@@ -9,17 +9,17 @@
 
 ### User Story 1 - Browse UX Cases (Priority: P1)
 
-A user visits the website to learn about UX best practices by browsing through different UX cases. They can see a list of available cases in a sidebar and click on any case to view its content.
+A user visits the website to learn about UX best practices by browsing through different UX cases. They can see a list of available cases on the landing page (sorted by newest first) and click on any case to view its content.
 
 **Why this priority**: This is the core functionality - without being able to browse and view cases, the application has no value.
 
-**Independent Test**: Can be fully tested by loading the homepage and verifying that cases are displayed in the sidebar and can be clicked to view content.
+**Independent Test**: Can be fully tested by loading the landing page and verifying that cases are listed (newest first) and can be clicked to view content.
 
 **Acceptance Scenarios**:
 
-1. **Given** a user visits the homepage, **When** they see the sidebar, **Then** they can see a list of available UX cases
-2. **Given** a user sees a case in the sidebar, **When** they click on it, **Then** the case content is displayed in the main area
-3. **Given** a user is viewing a case, **When** they click on a different case in the sidebar, **Then** the content updates to show the new case
+1. **Given** a user visits the landing page, **When** they view the list, **Then** items are shown in newest-first order
+2. **Given** a user sees a case in the list, **When** they click on it, **Then** the case content is displayed in the main area
+3. **Given** a user is viewing a case, **When** they click "Back to Home", **Then** they return to the landing page
 
 ---
 
@@ -29,29 +29,29 @@ A user viewing a UX case can toggle between "Do" and "Don't" examples to see bot
 
 **Why this priority**: The Do/Don't toggle is a core differentiator that provides educational value by showing contrasting examples.
 
-**Independent Test**: Can be fully tested by viewing any case and verifying that the toggle button switches between Do and Don't examples.
+**Independent Test**: Can be fully tested by viewing any case and verifying that the toggle switches views, defaults to "Don't" when unspecified, and respects a shared link that specifies the view.
 
 **Acceptance Scenarios**:
 
-1. **Given** a user is viewing a UX case, **When** they see the Do/Don't toggle, **Then** they can click it to switch between examples
-2. **Given** a user is viewing the "Do" example, **When** they click the toggle, **Then** the content changes to show the "Don't" example
-3. **Given** a user is viewing the "Don't" example, **When** they click the toggle, **Then** the content changes to show the "Do" example
+1. **Given** a user is viewing a UX case that supports both views, **When** they see the Do/Don't toggle, **Then** they can click it to switch between examples
+2. **Given** a user opens a case without specifying a view, **When** the page loads, **Then** the "Don't" view is shown by default
+3. **Given** a user opens a case via a link that specifies a view, **When** the page loads, **Then** that specified view is shown
 
 ---
 
 ### User Story 3 - Navigate Between Cases (Priority: P2)
 
-A user can easily navigate between different UX cases to learn about various UX principles and best practices.
+A user can easily move between the landing page and case pages to learn about various UX principles and best practices.
 
 **Why this priority**: Navigation between cases enables users to explore multiple topics and get comprehensive UX education.
 
-**Independent Test**: Can be fully tested by clicking through multiple cases in the sidebar and verifying smooth transitions.
+**Independent Test**: Can be fully tested by navigating from the landing page to multiple case pages and verifying smooth transitions without full page reloads.
 
 **Acceptance Scenarios**:
 
-1. **Given** a user is viewing one case, **When** they click on another case in the sidebar, **Then** the content updates without page reload
-2. **Given** a user navigates between cases, **When** they return to a previously viewed case, **Then** the case remembers their last Do/Don't toggle state
-3. **Given** a user is on a case, **When** they use browser back/forward buttons, **Then** the navigation works as expected
+1. **Given** a user is viewing one case, **When** they click "Back to Home" and select another case from the list, **Then** the new case opens without a full page reload
+2. **Given** a user opens a shared case link with a specified view, **When** they use browser back/forward, **Then** the view in the URL is respected on navigation
+3. **Given** a user is on a case, **When** they use the browser back/forward buttons, **Then** navigation between the landing and case pages works as expected
 
 ---
 
@@ -61,21 +61,23 @@ A user can easily navigate between different UX cases to learn about various UX 
 - How does the system handle cases with missing Do or Don't examples?
 - What happens when a user tries to access a case that doesn't exist?
 - How does the system handle slow loading of case content?
+- Only one case exists at launch; landing still loads and shows the single item
+- A shared link includes an invalid view; system falls back to default "Don't"
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: System MUST display a sidebar with a list of available UX cases
-- **FR-002**: System MUST allow users to click on any case in the sidebar to view its content
-- **FR-003**: System MUST display case content in the main area when a case is selected
-- **FR-004**: System MUST provide a Do/Don't toggle button for each case
-- **FR-005**: System MUST switch between Do and Don't examples when the toggle is clicked
-- **FR-006**: System MUST maintain the current toggle state when navigating between cases
+- **FR-001**: System MUST display a landing page with a list of cases sorted by newest first
+- **FR-002**: System SHOULD highlight Trending (manual) and New (created within last 30 days) when available
+- **FR-003**: System MUST allow users to open a case from the landing list
+- **FR-004**: System MUST provide a Do/Don't toggle on cases that support both views
+- **FR-005**: System MUST default the case view to Don't on first open if not otherwise specified
+- **FR-006**: System MUST allow sharing a link that opens a case in a specific view (link preserves the selected view)
 - **FR-007**: System MUST load case content without requiring a full page reload
-- **FR-008**: System MUST handle cases that may have only Do or only Don't examples
-- **FR-009**: System MUST provide visual feedback when switching between Do/Don't examples
-- **FR-010**: System MUST ensure the sidebar remains accessible while viewing any case
+- **FR-008**: System MUST handle cases that have only Do or only Don't by omitting the toggle
+- **FR-009**: System MUST provide visual feedback when switching between Do/Don't views
+- **FR-010**: System MUST provide a clear "Back to Home" action from any case detail
 
 ### Key Entities *(include if feature involves data)*
 
@@ -91,5 +93,6 @@ A user can easily navigate between different UX cases to learn about various UX 
 - **SC-002**: Users can toggle between Do/Don't examples in under 1 second
 - **SC-003**: 95% of users can successfully navigate between different cases without confusion
 - **SC-004**: Users can access all available cases without encountering loading errors
-- **SC-005**: The sidebar remains functional and accessible across all case views
+- **SC-005**: Users can return to the landing page from a case in one click
 - **SC-006**: Users can complete a full case review (viewing both Do and Don't examples) in under 3 minutes
+- **SC-007**: Opening a shared link with a specified view shows that view within 2 seconds
