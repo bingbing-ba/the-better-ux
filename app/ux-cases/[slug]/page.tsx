@@ -134,7 +134,7 @@ function ImageLoadingBlurhashCase({
         <div className="rounded-lg border border-gray-200 p-8">
           {view === 'dont' ? (
             <div>
-              <h2 className="mb-4 text-2xl font-semibold text-red-900">❌ Don't</h2>
+              <h2 className="mb-4 text-2xl font-semibold text-red-900">❌ Don&apos;t</h2>
               <p className="mb-6 text-gray-700">
                 Loading images without a placeholder creates a jarring experience. Users see empty
                 space that suddenly pops in, causing layout shifts and visual instability.

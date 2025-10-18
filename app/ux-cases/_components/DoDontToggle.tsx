@@ -21,10 +21,10 @@ export function DoDontToggle({ value, onChange, className }: DoDontToggleProps) 
       <Toggle
         pressed={value === 'dont'}
         onPressedChange={(pressed) => pressed && onChange('dont')}
-        aria-label="Show Don't example"
+        aria-label="Show Don&apos;t example"
         className="data-[state=on]:bg-red-100 data-[state=on]:text-red-900"
       >
-        ❌ Don't
+        ❌ Don&apos;t
       </Toggle>
       <Toggle
         pressed={value === 'do'}
