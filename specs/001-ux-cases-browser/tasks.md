@@ -36,13 +36,13 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T008 Create base routing: landing `app/page.tsx` and case route `app/ux-cases/[slug]/page.tsx` (empty scaffolds)
-- [ ] T009 [P] Setup TypeScript configuration with strict typing
-- [ ] T010 [P] Configure Tailwind CSS with Shadcn UI integration
-- [ ] T011 [P] Setup Jest and React Testing Library configuration
-- [ ] T012 [P] Setup Playwright for E2E testing
-- [ ] T013 Create base layout structure in app/layout.tsx
-- [ ] T014 Create utility functions in lib/utils.ts and lib/cn.ts
+- [x] T008 Create base routing: landing `app/page.tsx` and case route `app/ux-cases/[slug]/page.tsx` (empty scaffolds) ✅
+- [x] T009 [P] Setup TypeScript configuration with strict typing ✅
+- [x] T010 [P] Configure Tailwind CSS with Shadcn UI integration ✅
+- [x] T011 [P] Setup Jest and React Testing Library configuration ✅
+- [x] T012 [P] Setup Playwright for E2E testing ✅
+- [x] T013 Create base layout structure in app/layout.tsx ✅
+- [x] T014 Create utility functions in lib/utils.ts and lib/cn.ts ✅
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -63,10 +63,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T017 [US1] Define small case metadata list (title, slug, createdAt, tags?, isTrending?) for landing
-- [ ] T018 [US1] Implement landing list (newest-first) with optional Trending/New sections in app/page.tsx
-- [ ] T019 [US1] Ensure list items are accessible and keyboard navigable
-- [ ] T020 [US1] Add responsive layout for landing list
+- [x] T017 [US1] Define small case metadata list (title, slug, createdAt, tags?, isTrending?) for landing ✅
+- [x] T018 [US1] Implement landing list (newest-first) with optional Trending/New sections in app/page.tsx ✅
+- [x] T019 [US1] Ensure list items are accessible and keyboard navigable ✅
+- [x] T020 [US1] Add responsive layout for landing list ✅
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -85,11 +85,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Create first UX case page in app/ux-cases/image-loading-blurhash/page.tsx
-- [ ] T026 [US2] Implement DoDontToggle component in app/ux-cases/_components/DoDontToggle.tsx
-- [ ] T027 [US2] Add interactive example content for image loading blurhash case
-- [ ] T028 [US2] Implement state management for toggle functionality
-- [ ] T029 [US2] Add visual feedback for toggle state changes
+- [x] T025 [US2] Create first UX case page in app/ux-cases/[slug]/page.tsx with image-loading-blurhash ✅
+- [x] T026 [US2] Implement DoDontToggle component in app/ux-cases/_components/DoDontToggle.tsx ✅
+- [x] T027 [US2] Add interactive example content for image loading blurhash case ✅
+- [x] T028 [US2] Implement state management for toggle functionality ✅
+- [x] T029 [US2] Add visual feedback for toggle state changes ✅
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -108,10 +108,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T034 [US3] Add "Back to Home" link on case pages
-- [ ] T035 [US3] Ensure browser back/forward works between landing and case
-- [ ] T036 [US3] Respect `view` query param on load and when navigating
-- [ ] T037 [US3] Add loading states for page transitions (if needed)
+- [x] T034 [US3] Add "Back to Home" link on case pages ✅
+- [x] T035 [US3] Ensure browser back/forward works between landing and case ✅
+- [x] T036 [US3] Respect `view` query param on load and when navigating ✅
+- [x] T037 [US3] Add loading states for page transitions (if needed) ✅
 
 **Checkpoint**: All user stories should now be independently functional
 
