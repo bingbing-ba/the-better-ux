@@ -7,19 +7,19 @@
 
 ## Summary
 
-Build a UX Cases Browser application that allows users to browse educational UX examples through a sidebar navigation system. Users can view different UX cases and toggle between "Do" and "Don't" examples to learn best practices. The application will use Next.js App Router with TypeScript, Shadcn UI components, and follow the established project structure standards.
+Build a UX Cases Browser where users browse a landing list of cases (newest first), open a case detail page, and toggle between "Do" and "Don't" examples. No sidebar in MVP; navigation is between landing (`/`) and case pages (`/ux-cases/{slug}`). The toggle defaults to "Don't" and shared links can open a specific view. Use Next.js App Router with TypeScript and Shadcn UI.
 
 ## Technical Context
 
 **Language/Version**: TypeScript 5.x with Next.js 15.5.4  
 **Primary Dependencies**: Next.js, React 19, Shadcn UI, Tailwind CSS, TanStack Query, Zustand  
-**Storage**: Static JSON files for UX case data (no database required)  
+**Storage**: No centralized model in MVP; each case is its own page. Landing uses a small static list of metadata for links/highlights.  
 **Testing**: Jest, React Testing Library, Playwright for E2E  
 **Target Platform**: Web browsers (desktop and mobile responsive)  
 **Project Type**: Single web application  
 **Performance Goals**: Case loading < 2 seconds, toggle response < 1 second, Core Web Vitals compliance  
 **Constraints**: < 200 lines per file, Shadcn UI components only, English content only  
-**Scale/Scope**: Educational website with 10-50 UX cases, single-page application
+**Scale/Scope**: Launch with 1 case; scale later
 
 ## Constitution Check
 
@@ -51,12 +51,12 @@ specs/001-ux-cases-browser/
 
 ```
 app/
-├── page.tsx                    # Homepage with UX cases browser
+├── page.tsx                    # Landing page: highlights + newest-first list
 ├── layout.tsx                  # Root layout
 ├── globals.css                 # Global styles
-└── ux-cases/                   # Feature: UX Cases Browser (fixed route)
-    ├── _components/            # Shared components for this feature (create as needed)
-    └── [case]/                 # Individual cases (variable)
+└── ux-cases/                   # Feature: UX Cases Browser
+    ├── _components/            # Shared components for this feature (toggle, etc.)
+    └── [slug]/                 # Individual case pages
         └── page.tsx
 
 lib/                            # Shared utilities (create as needed)
@@ -68,19 +68,14 @@ tests/                          # Tests (create as needed)
 └── e2e/
 ```
 
-**Structure Decision**: Next.js App Router with feature-based organization. Use underscore folders for non-routable dirs. Apply escalation-by-reuse: page-level first; promote to feature-level; promote to root only when reused by multiple features. No `features/` wrapper in URLs.
-
-## Phase 1 Complete
-
-✅ **Research Phase**: All technical unknowns resolved in `research.md`  
-✅ **Quickstart Guide**: Implementation guide created in `quickstart.md`  
-✅ **Agent Context**: Cursor IDE context updated with new technologies  
+**Structure Decision**: Next.js App Router with feature-based organization. Use underscore folders for non-routable dirs. Apply escalation-by-reuse. URLs: `/` (landing list), `/ux-cases` (optional alias list), `/ux-cases/{slug}` (details).
 
 ## Next Steps
 
-The implementation plan is complete and ready for:
-- `/speckit.tasks` - Break down into actionable development tasks
-- `/speckit.implement` - Begin implementation
+1) Implement landing list with newest-first order, Trending/New highlights (manual + last 30 days).
+2) Implement one case page under `/ux-cases/{slug}`.
+3) Implement shared Do/Don't toggle with default to Don't and URL view support.
+4) Add "Back to Home" action to case page.
 
 ## Complexity Tracking
 
