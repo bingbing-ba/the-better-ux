@@ -22,7 +22,7 @@
 
 - [x] T001 Create project structure per implementation plan
 - [x] T002 [P] Install dependencies: @tanstack/react-query, zustand, @testing-library/react, @testing-library/jest-dom, jest, playwright
-- [x] T003 [P] Setup Shadcn UI components: button, card, sidebar, toggle
+- [x] T003 [P] Setup Shadcn UI components: button, card, toggle
 - [x] T004 [P] Configure TanStack Query provider in app/providers.tsx
 - [x] T005 [P] Create minimal folders: app/ux-cases/_components/, tests/components/, tests/e2e/
 - [ ] T006 [P] (Optional later) Create feature-level shared folders only when reused: app/ux-cases/_hooks/, app/ux-cases/_stores/, app/ux-cases/_consts/
@@ -36,7 +36,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T008 Inline sidebar navigation items in app/ux-cases/_components/Sidebar.tsx (lift to shared module later if reused)
+- [ ] T008 Create base routing: landing `app/page.tsx` and case route `app/ux-cases/[slug]/page.tsx` (empty scaffolds)
 - [ ] T009 [P] Setup TypeScript configuration with strict typing
 - [ ] T010 [P] Configure Tailwind CSS with Shadcn UI integration
 - [ ] T011 [P] Setup Jest and React Testing Library configuration
@@ -50,25 +50,23 @@
 
 ## Phase 3: User Story 1 - Browse UX Cases (Priority: P1) 🎯 MVP
 
-**Goal**: Users can see a list of available UX cases in a sidebar and click on any case to view its content
+**Goal**: Users can see a landing list of cases (newest first) and click a case to open its page
 
-**Independent Test**: Load the homepage and verify that cases are displayed in the sidebar and can be clicked to view content
+**Independent Test**: Load the landing page and verify the list is newest-first and clickable to open a case
 
 ### Tests for User Story 1
 
 **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T015 [P] [US1] Unit test for Sidebar component in tests/components/Sidebar.test.tsx
-- [ ] T016 [P] [US1] E2E test for case navigation in tests/e2e/case-navigation.spec.ts
+- [ ] T015 [P] [US1] Unit test for landing list ordering and links in tests/components/LandingList.test.tsx
+- [ ] T016 [P] [US1] E2E test: open case from landing list in tests/e2e/case-navigation.spec.ts
 
 ### Implementation for User Story 1
 
-- [ ] T017 [US1] Define local sidebar items (id, title, href) in app/ux-cases/_components/Sidebar.tsx
-- [ ] T018 [US1] Add types locally or in a nearby module when needed
-- [ ] T019 [US1] Implement Sidebar component in app/ux-cases/_components/Sidebar.tsx
-- [ ] T020 [US1] Create UXCasesLayout in app/ux-cases/layout.tsx
-- [ ] T021 [US1] Update home page to display UX cases in app/page.tsx
-- [ ] T022 [US1] Add responsive design and accessibility features to Sidebar
+- [ ] T017 [US1] Define small case metadata list (title, slug, createdAt, tags?, isTrending?) for landing
+- [ ] T018 [US1] Implement landing list (newest-first) with optional Trending/New sections in app/page.tsx
+- [ ] T019 [US1] Ensure list items are accessible and keyboard navigable
+- [ ] T020 [US1] Add responsive layout for landing list
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -78,12 +76,12 @@
 
 **Goal**: Users can toggle between "Do" and "Don't" examples to see both good and bad practices for the same UX principle
 
-**Independent Test**: View any case and verify that the toggle button switches between Do and Don't examples
+**Independent Test**: View any case and verify the toggle switches views, defaults to Don't, and respects a link-specified view
 
 ### Tests for User Story 2
 
-- [ ] T023 [P] [US2] Unit test for DoDontToggle component in tests/components/DoDontToggle.test.tsx
-- [ ] T024 [P] [US2] E2E test for toggle functionality in tests/e2e/toggle-functionality.spec.ts
+- [ ] T023 [P] [US2] Unit test for DoDontToggle: default Don't and view query param in tests/components/DoDontToggle.test.tsx
+- [ ] T024 [P] [US2] E2E test: toggle behavior and linkable view in tests/e2e/toggle-functionality.spec.ts
 
 ### Implementation for User Story 2
 
@@ -92,33 +90,28 @@
 - [ ] T027 [US2] Add interactive example content for image loading blurhash case
 - [ ] T028 [US2] Implement state management for toggle functionality
 - [ ] T029 [US2] Add visual feedback for toggle state changes
-- [ ] T030 [US2] Create second UX case page in app/ux-cases/form-validation/page.tsx
-- [ ] T031 [US2] Add interactive example content for form validation case
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
 ---
 
-## Phase 5: User Story 3 - Navigate Between Cases (Priority: P2)
+## Phase 5: User Story 3 - Navigate Between Pages (Priority: P2)
 
-**Goal**: Users can easily navigate between different UX cases to learn about various UX principles and best practices
+**Goal**: Users can easily move between landing and case pages; shared links open the specified view; browser navigation works
 
-**Independent Test**: Click through multiple cases in the sidebar and verify smooth transitions
+**Independent Test**: Navigate landing → case → landing and use back/forward; verify linkable view is respected
 
 ### Tests for User Story 3
 
-- [ ] T032 [P] [US3] E2E test for navigation between cases in tests/e2e/case-navigation.spec.ts
-- [ ] T033 [P] [US3] Unit test for navigation state management in tests/hooks/useNavigation.test.tsx
+- [ ] T032 [P] [US3] E2E test for landing/case/back flow in tests/e2e/case-navigation.spec.ts
+- [ ] T033 [P] [US3] Unit test for reading view from URL and fallback behavior
 
 ### Implementation for User Story 3
 
-- [ ] T034 [US3] Create third UX case page in app/ux-cases/button-states/page.tsx
-- [ ] T035 [US3] Add interactive example content for button states case
-- [ ] T036 [US3] Implement navigation state management in app/ux-cases/_stores/navigationStore.ts
-- [ ] T037 [US3] Add browser back/forward button support
-- [ ] T038 [US3] Implement smooth transitions between cases
-- [ ] T039 [US3] Add loading states for case transitions
-- [ ] T040 [US3] Implement toggle state persistence across navigation
+- [ ] T034 [US3] Add "Back to Home" link on case pages
+- [ ] T035 [US3] Ensure browser back/forward works between landing and case
+- [ ] T036 [US3] Respect `view` query param on load and when navigating
+- [ ] T037 [US3] Add loading states for page transitions (if needed)
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -181,11 +174,11 @@
 
 ```bash
 # Launch all tests for User Story 1 together:
-Task: "Unit test for Sidebar component in tests/components/Sidebar.test.tsx"
-Task: "E2E test for case navigation in tests/e2e/case-navigation.spec.ts"
+Task: "Unit test for landing list ordering and links in tests/components/LandingList.test.tsx"
+Task: "E2E test: open case from landing list in tests/e2e/case-navigation.spec.ts"
 
 # Launch all foundational tasks together:
-Task: "Create SidebarItem interface in const/sidebarItems.ts"
+Task: "Create base routing: landing and case route scaffolds"
 Task: "Setup TypeScript configuration with strict typing"
 Task: "Configure Tailwind CSS with Shadcn UI integration"
 ```
