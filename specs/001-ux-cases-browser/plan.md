@@ -12,7 +12,7 @@ Build a UX Cases Browser with a landing list (newest-first) and static case page
 ## Technical Context
 
 **Language/Version**: TypeScript 5.x, Next.js 15.5.x (App Router)  
-**Primary Dependencies**: React 19, Shadcn UI, Tailwind CSS, TanStack Query (providers only)  
+**Primary Dependencies**: React 19, Shadcn UI, Tailwind CSS, TanStack Query (providers only), react-blurhash, blurhash  
 **Storage**: No backend; static case pages. Landing uses a small local metadata list.  
 **Testing**: Jest, React Testing Library, Playwright  
 **Target Platform**: Web (desktop and mobile)  

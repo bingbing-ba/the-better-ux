@@ -25,6 +25,7 @@
 - [x] T003 [P] Setup Shadcn UI components: button, card, toggle ✅
 - [x] T004 [P] Configure TanStack Query provider in app/providers.tsx ✅
 - [x] T005 [P] Create minimal folders: app/ux-cases/_components/, tests/components/, tests/e2e/ ✅
+- [ ] T005a [P] Install Blurhash libraries: `npm install react-blurhash blurhash`
 - [ ] T006 [P] (Optional later) Create feature-level shared folders only when reused: app/ux-cases/_hooks/, app/ux-cases/_stores/, app/ux-cases/_consts/
 - [ ] T007 [P] (Optional later) Create root-level shared folders only when reused by multiple features: hooks/, stores/, const/
 
@@ -99,6 +100,7 @@
 - [x] T029d [US2] Ensure perceived load is not instantaneous (~700–1200ms); simulate or throttle for demo ✅
 - [x] T029e [US2] "Don't" view uses uniform gray placeholder (no blurhash) ✅
 - [x] T029f [US2] Provide meaningful alt text describing problem (Don't) and improvement (Do) ✅
+- [ ] T029g [US2] Replace gradient approximation with real `<Blurhash>` rendering for the Do view
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 

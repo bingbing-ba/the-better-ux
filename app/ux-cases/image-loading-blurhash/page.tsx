@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Blurhash } from 'react-blurhash';
 import { cn } from '@/lib/utils';
 import { DoDontToggle, ViewType } from '../_components/DoDontToggle';
 import { cases } from '../_data/cases';
@@ -198,12 +199,12 @@ function ImageWithBlurhash({ src, blurhash, alt }: { src: string; blurhash: stri
 
   return (
     <div className={cn('relative aspect-square overflow-hidden rounded-lg')}>
-      {/* Blurhash preview (simplified as gradient for now; full blurhash decode would need a library) */}
-      <div
-        className={cn('absolute inset-0')}
-        style={{
-          background: blurhashToGradient(blurhash),
-        }}
+      {/* Real Blurhash preview */}
+      <Blurhash
+        hash={blurhash}
+        width={'100%'}
+        height={'100%'}
+        punch={1}
       />
       {shouldShow && (
         <Image
@@ -218,14 +219,5 @@ function ImageWithBlurhash({ src, blurhash, alt }: { src: string; blurhash: stri
   );
 }
 
-// Simplified blurhash representation (gradient approximation)
-// Real implementation would use blurhash decode library
-function blurhashToGradient(hash: string): string {
-  // For MVP, generate a simple gradient based on hash characters
-  const charCode1 = hash.charCodeAt(0) || 100;
-  const charCode2 = hash.charCodeAt(hash.length - 1) || 150;
-  const hue1 = (charCode1 * 3) % 360;
-  const hue2 = (charCode2 * 3) % 360;
-  return `linear-gradient(135deg, hsl(${hue1}, 30%, 70%), hsl(${hue2}, 30%, 80%))`;
-}
+// no-op: gradient approximation removed in favor of real Blurhash
 
