@@ -3,7 +3,7 @@ import { Roboto, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import Link from 'next/link';
-import { Github } from 'lucide-react';
+import Image from 'next/image';
 
 const roboto = Roboto({
   variable: '--font-roboto',
@@ -33,7 +33,12 @@ export default function RootLayout({
             {children}
             <footer className="mt-16 border-t py-6 text-sm text-gray-600">
               <div className="mx-auto flex max-w-4xl items-center justify-end gap-2 px-6">
-                <Github className="h-4 w-4" />
+                <Image
+                  src="https://cdn.simpleicons.org/github/000000"
+                  alt="GitHub"
+                  width={16}
+                  height={16}
+                />
                 <Link
                   href="https://github.com/bingbing-ba/the-better-ux"
                   target="_blank"
