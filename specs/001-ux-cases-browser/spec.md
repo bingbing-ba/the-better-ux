@@ -96,3 +96,29 @@ A user can easily move between the landing page and case pages to learn about va
 - **SC-005**: Users can return to the landing page from a case in one click
 - **SC-006**: Users can complete a full case review (viewing both Do and Don't examples) in under 3 minutes
 - **SC-007**: Opening a shared link with a specified view shows that view within 2 seconds
+
+## Information Architecture (Routing)
+
+- Landing page: `/` shows highlights (Trending/New) and the full list (newest first)
+- Case detail pages: each case is a static route under `/ux-cases/{slug}` (e.g., `/ux-cases/image-loading-blurhash`)
+- MVP does NOT use a dynamic `[slug]` route; create a folder per case
+
+## Content Guidelines (First Case)
+
+- Structure (in order):
+  1) Short title and purpose (1–2 lines)
+  2) Do/Don't toggle (default to "Don't")
+  3) Example panels: show the experience
+  4) Why it matters: 2–4 concise bullets
+  5) Optional references/links
+- Visuals:
+  - 1–2 screenshots or a short GIF per view (Do and Don't)
+  - Max rendered size ~800×600, `.webp` preferred
+  - Descriptive alt text (describe the UX issue or improvement)
+  - File naming: `{slug}-{do|dont}-{n}.webp` (e.g., `image-loading-blurhash-dont-1.webp`)
+  - Assets path: `public/ux-cases/{slug}/`
+
+## Design Guidelines (Implementation-agnostic)
+
+- Class composition: use a class composition helper (`cn()`) to merge base styles with overrides; avoid template string concatenation for `className`
+- Components SHOULD accept a `className` prop to allow safe extension/override of styles
