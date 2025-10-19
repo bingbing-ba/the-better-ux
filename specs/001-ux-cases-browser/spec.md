@@ -100,8 +100,7 @@ A user can easily move between the landing page and case pages to learn about va
 ## Information Architecture (Routing)
 
 - Landing page: `/` shows highlights (Trending/New) and the full list (newest first)
-- Case detail pages: each case is a static route under `/ux-cases/{slug}` (e.g., `/ux-cases/image-loading-blurhash`)
-- MVP does NOT use a dynamic `[slug]` route; create a folder per case
+- Case detail pages: each case appears under `/ux-cases/{slug}` (e.g., `/ux-cases/image-loading-blurhash`)
 
 ## Content Guidelines (First Case)
 
@@ -120,5 +119,4 @@ A user can easily move between the landing page and case pages to learn about va
 
 ## Design Guidelines (Implementation-agnostic)
 
-- Class composition: use a class composition helper (`cn()`) to merge base styles with overrides; avoid template string concatenation for `className`
 - Components SHOULD accept a `className` prop to allow safe extension/override of styles

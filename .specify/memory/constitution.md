@@ -37,7 +37,7 @@ All code MUST follow the established structure for Next.js App Router with TypeS
   - Root-level: When multiple features reuse code, create global folders at repo root: `hooks/`, `stores/`, `actions/`, `const/` (same level as `app/`).
 - Naming and routing:
   - Underscore-prefixed folders (e.g., `_components`, `_hooks`) are REQUIRED for non-routable directories in App Router.
-  - The `ux-cases` route segment is FIXED as the feature container; individual cases live at `app/ux-cases/[case]/page.tsx`.
+  - The `ux-cases` route segment is FIXED as the feature container; individual cases live at `app/ux-cases/{slug}/page.tsx` as static folders (no dynamic `[slug]` for MVP).
 - Proximity rule: Keep items closest to where they are used; elevate to feature-level or root-level only when reuse across pages or features is demonstrated.
 
 ### VII. State Management Standards
@@ -52,6 +52,7 @@ Server state management MUST use TanStack Query (React Query) for all API data f
 - TypeScript MUST be used for all new code with strict type checking
 - Code files SHOULD be kept under 200 lines for better readability and maintainability
 - Large files SHOULD be split into smaller components or utilities, even if used only once, to improve code comprehension
+ - Class composition MUST use a helper (e.g., `cn()`) to merge base and override styles; components SHOULD accept a `className` prop; avoid template literal concatenation for `className`.
 
 ### Performance Requirements
 - Bundle size MUST be monitored and optimized
@@ -67,4 +68,4 @@ This constitution supersedes all other development practices. All pull requests 
 3. Migration plan for existing code
 4. Version increment following semantic versioning
 
-**Version**: 1.1.0 | **Ratified**: 2025-10-14 | **Last Amended**: 2025-10-15
+**Version**: 1.2.0 | **Ratified**: 2025-10-14 | **Last Amended**: 2025-10-19
