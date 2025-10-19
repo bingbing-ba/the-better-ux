@@ -120,3 +120,58 @@ A user can easily move between the landing page and case pages to learn about va
 ## Design Guidelines (Implementation-agnostic)
 
 - Components SHOULD accept a `className` prop to allow safe extension/override of styles
+
+## Case Supplement: Image Loading with Blurhash (MVP)
+
+### Assets (required)
+
+- Images (use these exact URLs for the demo case):
+  - `https://storage.googleapis.com/the-better-ux/image-loading-blurhash/profile-1.png`
+  - `https://storage.googleapis.com/the-better-ux/image-loading-blurhash/profile-2.png`
+  - `https://storage.googleapis.com/the-better-ux/image-loading-blurhash/profile-3.png`
+  - `https://storage.googleapis.com/the-better-ux/image-loading-blurhash/profile-4.png`
+
+### Blurhash (required for "Do" view)
+
+- Map by image order:
+  1.
+  ```
+  :VJ8Lut7%g9ZIBV@ozW;~WxukXR*DiWAWBofIotRi_oJxvWBjYoJW=WCs.V@ozoga#oft7aeaea}M{WCofofogt7RjaekCWBs:oJoft7WXRjoJf6RkayxuofWBWBayj[RjWB
+  ```
+  2.
+  ```
+  :fO:w*jZ?wbIR5oLNGayD*bH%1aeR*ofaxayo~ofROWCW=j[t7a}%2j@NHWVoJj[offQxuj[M{ayt7j]WBfRoIaeR*oft7aeRjayozazaeoLj[azWVj[ayayfPofWBWBofj[
+  ```
+  3.
+  ```
+  :QIqP|IU0fs,wHs:n%bI00^+%goLt6R*f6WV.TRk,:NFIpoeW=of9ut7w]%3RkoMbcayaet7xvNGWVWBoLj[-=NHR%WBNat7aeofafX9R-t7jZRks:axozt8bbNGn$WBoeof
+  ```
+  4.
+  ```
+  :SKK$qoz.TkCwHoeShj]~qWBM_WVIUjsWBay0KjsnMoftSbHxaj[.8ayR*jZoLWBRjoLjFj[M{j[j[ofoLfPRjj[t7WBt7oeRjWBofjtbHWVRioLWVa}Rjays:kCj[f6t7WB
+  ```
+
+### UX behavior (must)
+
+- Default view is "Don't".
+- "Don't" view:
+  - Use a uniform gray placeholder (no blurhash).
+  - Reserve the final image size up-front to prevent layout shift.
+  - Perceived image load should not be instantaneous (target ~700–1200 ms for demo value).
+- "Do" view:
+  - Show the blurhash preview immediately for the same reserved size (no layout shift).
+  - Transition smoothly from blurhash to the final image.
+  - Use the provided blurhash strings for the four demo images.
+
+### Accessibility (must)
+
+- Provide meaningful alt text describing the UX problem ("Don't") and improvement ("Do").
+- Ensure no content jumps (layout shift) during loading in both views.
+
+### Acceptance scenarios (case-specific)
+
+1. Given the "Don't" view, when the page loads, then a gray placeholder is visible immediately, the layout does not shift, and the image replaces the placeholder after roughly 0.7–1.2 seconds.
+2. Given the "Do" view, when the page loads, then a blurhash preview is visible immediately, the layout does not shift, and the full image replaces the blurhash smoothly.
+3. Given the "Do" view with the provided image URLs, when the images load, then each blurhash corresponds to its matching image (by order 1→4).
+4. Given the toggle is switched from "Don't" to "Do", when the content updates, then the correct preview (gray vs blurhash) is shown without layout shift.
+5. Given the page is opened via a link that specifies `?view=do`, when it loads, then the blurhash preview is shown first and transitions to the image.
