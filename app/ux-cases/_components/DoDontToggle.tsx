@@ -1,6 +1,7 @@
 'use client';
 
 import { Toggle } from '@/components/ui/toggle';
+import { cn } from '@/lib/utils';
 
 export type ViewType = 'do' | 'dont';
 
@@ -17,7 +18,7 @@ interface DoDontToggleProps {
  */
 export function DoDontToggle({ value, onChange, className }: DoDontToggleProps) {
   return (
-    <div className={`flex gap-2 ${className || ''}`}>
+    <div className={cn('flex gap-2', className)}>
       <Toggle
         pressed={value === 'dont'}
         onPressedChange={(pressed) => pressed && onChange('dont')}

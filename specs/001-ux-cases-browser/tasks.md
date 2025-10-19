@@ -36,7 +36,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [x] T008 Create base routing: landing `app/page.tsx` and case route `app/ux-cases/[slug]/page.tsx` (empty scaffolds) ✅
+- [x] T008 Create base routing: landing `app/page.tsx` and static case route folder `app/ux-cases/image-loading-blurhash/page.tsx` ✅
 - [x] T009 [P] Setup TypeScript configuration with strict typing ✅
 - [x] T010 [P] Configure Tailwind CSS with Shadcn UI integration ✅
 - [x] T011 [P] Setup Jest and React Testing Library configuration ✅
@@ -85,11 +85,20 @@
 
 ### Implementation for User Story 2
 
-- [x] T025 [US2] Create first UX case page in app/ux-cases/[slug]/page.tsx with image-loading-blurhash ✅
+- [x] T025 [US2] Create first UX case page in app/ux-cases/image-loading-blurhash/page.tsx ✅
 - [x] T026 [US2] Implement DoDontToggle component in app/ux-cases/_components/DoDontToggle.tsx ✅
 - [x] T027 [US2] Add interactive example content for image loading blurhash case ✅
 - [x] T028 [US2] Implement state management for toggle functionality ✅
 - [x] T029 [US2] Add visual feedback for toggle state changes ✅
+
+#### Case Supplement Tasks (Image Loading with Blurhash)
+
+- [x] T029a [US2] Use these exact image URLs in the case page (order 1→4) ✅
+- [x] T029b [US2] Apply provided blurhash strings (order 1→4) for the "Do" view previews ✅
+- [x] T029c [US2] Ensure no layout shift in both views by reserving image dimensions up-front ✅
+- [x] T029d [US2] Ensure perceived load is not instantaneous (~700–1200ms); simulate or throttle for demo ✅
+- [x] T029e [US2] "Don't" view uses uniform gray placeholder (no blurhash) ✅
+- [x] T029f [US2] Provide meaningful alt text describing problem (Don't) and improvement (Do) ✅
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -113,6 +122,11 @@
 - [x] T036 [US3] Respect `view` query param on load and when navigating ✅
 - [x] T037 [US3] Add loading states for page transitions (if needed) ✅
 
+### Tests for Case Supplement (US2, optional if enforcing TDD)
+
+- [ ] T038 [P] [US2] Unit test: layout is stable (no DOM reflow changing reserved container size on load)
+- [ ] T039 [P] [US2] E2E test: "Don't" shows gray placeholder; "Do" shows blurhash; both avoid layout shift; images appear within ~0.7–1.2s
+
 **Checkpoint**: All user stories should now be independently functional
 
 ---
@@ -134,6 +148,10 @@
 - [ ] T051 [P] Run quickstart.md validation
 - [ ] T052 [P] Code cleanup and refactoring
 - [ ] T053 [P] Security hardening and validation
+
+### Refactor & Consistency
+
+- [x] T054 [P] Replace template literal className concatenation with `cn()` helper where applicable ✅
 
 ---
 
