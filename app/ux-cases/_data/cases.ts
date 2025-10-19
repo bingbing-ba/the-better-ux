@@ -15,9 +15,9 @@ export const cases: CaseMetadata[] = [
   {
     title: "Slack doesn’t ship gray boxes. You shouldn’t either.",
     slug: 'image-loading-blurhash',
-    createdAt: '2025-01-27',
-    tags: ['images', 'loading', 'performance'],
-    isTrending: true,
+    createdAt: '2025-10-19',
+    tags: ['images', 'loading'],
+    isTrending: false,
   },
 ];
 
