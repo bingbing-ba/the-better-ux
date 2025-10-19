@@ -46,7 +46,7 @@
 - Context API only (not suitable for complex state)
 
 ### Data Storage Strategy
-**Decision**: Static JSON files for UX case data  
+**Decision**: No centralized data model; each case is a static page under `/ux-cases/{slug}`. Landing uses a tiny local metadata list only.  
 **Rationale**:
 - No database needed for static content
 - Fast loading with Next.js static generation
@@ -54,9 +54,8 @@
 - Follows JAMstack principles
 
 **Alternatives considered**:
-- Database (overkill for static content)
-- CMS (adds complexity)
-- Markdown files (JSON is more structured)
+- Dynamic `[slug]` route (harder to enforce content guidelines per case; less explicit IA)
+- Database/CMS/Markdown (overkill for MVP; slower content iteration)
 
 ## Performance Optimization Research
 

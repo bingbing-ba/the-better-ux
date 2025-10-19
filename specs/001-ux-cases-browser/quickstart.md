@@ -64,57 +64,11 @@ Already created minimally above; expand as needed.
 
 ## Implementation Steps
 
-### 1. Simple Sidebar Navigation
-Create a simple sidebar with titles and links:
+### 1. Static case routes (no dynamic `[slug]`)
+Create a case folder per slug:
 
-```typescript
-// app/ux-cases/_components/Sidebar.tsx (inline items for now)
-const sidebarItems = [
-  {
-    id: 'image-loading-blurhash',
-    title: 'The Image loading UX - Blurhash, that uses from Slack or Discord',
-    href: '/ux-cases/image-loading-blurhash'
-  },
-  {
-    id: 'form-validation',
-    title: 'The Form validation UX - Real-time feedback like Stripe',
-    href: '/ux-cases/form-validation'
-  },
-  {
-    id: 'button-states',
-    title: 'The Button states UX - Loading, disabled, and hover effects',
-    href: '/ux-cases/button-states'
-  }
-];
 ```
-
-### 2. Simple Sidebar Component
-Create a sidebar component that uses Next.js Link:
-
-```typescript
-// app/ux-cases/_components/Sidebar.tsx
-import Link from 'next/link';
-
-export function Sidebar() {
-  return (
-    <div className="w-64 border-r bg-gray-50">
-      <div className="p-4">
-        <h2 className="text-lg font-semibold mb-4">UX Cases</h2>
-        <nav className="space-y-2">
-          {sidebarItems.map((item) => (
-            <Link
-              key={item.id}
-              href={item.href}
-              className="block p-3 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
-      </div>
-    </div>
-  );
-}
+app/ux-cases/image-loading-blurhash/page.tsx
 ```
 
 ### 3. Individual Case Pages
@@ -172,26 +126,14 @@ export default function ImageLoadingBlurhashPage() {
 }
 ```
 
-### 4. Layout with Sidebar
-Create a layout that includes the sidebar:
+### 4. Class composition with `cn()`
+Prefer the helper to merge classes and allow overrides:
 
 ```typescript
-// app/ux-cases/layout.tsx
-import { Sidebar } from './_components/Sidebar';
+import { cn } from '@/lib/utils';
 
-export default function UXCasesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <main className="flex-1 overflow-auto">
-        {children}
-      </main>
-    </div>
-  );
+export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('rounded-lg border p-6', className)} {...props} />;
 }
 ```
 
