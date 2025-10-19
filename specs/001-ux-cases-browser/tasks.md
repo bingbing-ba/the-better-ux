@@ -159,6 +159,7 @@
 - [x] T057 [P] Fix description height for both Do/Don't examples to prevent toggle position shift ✅
 - [x] T058 [P] Make description height responsive for mobile (375px viewport) ✅
 - [x] T059 [P] Replace emoji (❌/✅) with Lucide icons (XCircle/CheckCircle) in Examples and DoDontToggle ✅
+- [ ] T060 [P] Add footer with GitHub icon + text linking to repo in app/layout.tsx
 
 ---
 
