@@ -13,7 +13,7 @@ export interface CaseMetadata {
 
 export const cases: CaseMetadata[] = [
   {
-    title: 'Image Loading with Blurhash',
+    title: "Slack doesn’t ship gray boxes. You shouldn’t either.",
     slug: 'image-loading-blurhash',
     createdAt: '2025-01-27',
     tags: ['images', 'loading', 'performance'],
