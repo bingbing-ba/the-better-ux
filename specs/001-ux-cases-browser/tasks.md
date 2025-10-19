@@ -157,6 +157,8 @@
 - [x] T055 [P] Replace "Back to Home" text link with Lucide ChevronLeft icon ✅
 - [x] T056 [P] Split image-loading-blurhash page into smaller components (<200 LOC guideline) ✅
 - [x] T057 [P] Fix description height for both Do/Don't examples to prevent toggle position shift ✅
+- [x] T058 [P] Make description height responsive for mobile (375px viewport) ✅
+- [x] T059 [P] Replace emoji (❌/✅) with Lucide icons (XCircle/CheckCircle) ✅
 
 ---
 

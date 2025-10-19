@@ -1,5 +1,6 @@
 'use client';
 
+import { XCircle, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ImageWithGrayPlaceholder, ImageWithBlurhash } from './ImageComponents';
 
@@ -23,9 +24,12 @@ const BLURHASHES = [
 export function DontExample() {
   return (
     <div>
-      <h2 className={cn('mb-4 text-2xl font-semibold text-red-900')}>❌ Don&apos;t</h2>
-      {/* Fixed height to prevent layout shift */}
-      <p className={cn('mb-6 h-12 text-gray-700')}>
+      <h2 className={cn('mb-4 flex items-center gap-2 text-2xl font-semibold text-red-900')}>
+        <XCircle className={cn('h-6 w-6')} />
+        <span>Don&apos;t</span>
+      </h2>
+      {/* Responsive height: h-12 on desktop, h-16 on mobile (375px) */}
+      <p className={cn('mb-6 h-16 text-gray-700 sm:h-12')}>
         Uniform gray placeholders provide no visual context while images load.
       </p>
       <div className={cn('grid grid-cols-2 gap-4')}>
@@ -45,9 +49,12 @@ export function DontExample() {
 export function DoExample() {
   return (
     <div>
-      <h2 className={cn('mb-4 text-2xl font-semibold text-green-900')}>✅ Do</h2>
-      {/* Fixed height to prevent layout shift */}
-      <p className={cn('mb-6 h-12 text-gray-700')}>
+      <h2 className={cn('mb-4 flex items-center gap-2 text-2xl font-semibold text-green-900')}>
+        <CheckCircle className={cn('h-6 w-6')} />
+        <span>Do</span>
+      </h2>
+      {/* Responsive height: h-12 on desktop, h-16 on mobile (375px) */}
+      <p className={cn('mb-6 h-16 text-gray-700 sm:h-12')}>
         Blurhash shows an instant preview, creating smooth, professional loading.
       </p>
       <div className={cn('grid grid-cols-2 gap-4')}>
