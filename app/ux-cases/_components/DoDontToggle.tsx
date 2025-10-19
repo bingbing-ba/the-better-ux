@@ -1,5 +1,6 @@
 'use client';
 
+import { XCircle, CheckCircle } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
 
@@ -23,17 +24,19 @@ export function DoDontToggle({ value, onChange, className }: DoDontToggleProps) 
         pressed={value === 'dont'}
         onPressedChange={(pressed) => pressed && onChange('dont')}
         aria-label="Show Don&apos;t example"
-        className="data-[state=on]:bg-red-100 data-[state=on]:text-red-900"
+        className={cn('data-[state=on]:bg-red-100 data-[state=on]:text-red-900')}
       >
-        ❌ Don&apos;t
+        <XCircle className={cn('mr-1 h-4 w-4')} />
+        Don&apos;t
       </Toggle>
       <Toggle
         pressed={value === 'do'}
         onPressedChange={(pressed) => pressed && onChange('do')}
         aria-label="Show Do example"
-        className="data-[state=on]:bg-green-100 data-[state=on]:text-green-900"
+        className={cn('data-[state=on]:bg-green-100 data-[state=on]:text-green-900')}
       >
-        ✅ Do
+        <CheckCircle className={cn('mr-1 h-4 w-4')} />
+        Do
       </Toggle>
     </div>
   );
