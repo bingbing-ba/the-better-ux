@@ -3,6 +3,7 @@ import { Roboto, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import Link from 'next/link';
+import { Analytics } from '@vercel/analytics/react'
 
 const roboto = Roboto({
   variable: '--font-roboto',
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${robotoMono.variable} antialiased`}>
+        <Analytics />
         <Providers>
           <div className="min-h-screen">
             {children}
