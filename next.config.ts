@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.simpleicons.org',
         pathname: '/github/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
     ],
   },
 };

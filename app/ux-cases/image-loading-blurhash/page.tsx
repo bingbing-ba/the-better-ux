@@ -1,11 +1,11 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DoDontToggle, ViewType } from '../_components/DoDontToggle';
+import { DoDontToggle } from '../_components/DoDontToggle';
+import { useDoDontView } from '../_hooks/useDoDontView';
 import { cases } from '../_data/cases';
 import { DontExample, DoExample } from './_components/Examples';
 
@@ -18,29 +18,8 @@ export default function ImageLoadingBlurhashPage() {
 }
 
 function ImageLoadingBlurhashContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  // Get view from URL or default to 'dont'
-  const viewParam = searchParams.get('view') as ViewType | null;
-  const [view, setView] = useState<ViewType>(
-    viewParam === 'do' || viewParam === 'dont' ? viewParam : 'dont'
-  );
-
-  // Update URL when view changes
-  const handleViewChange = (newView: ViewType) => {
-    setView(newView);
-    const url = new URL(window.location.href);
-    url.searchParams.set('view', newView);
-    router.replace(url.pathname + url.search, { scroll: false });
-  };
-
-  // Sync view with URL param changes
-  useEffect(() => {
-    if (viewParam === 'do' || viewParam === 'dont') {
-      setView(viewParam);
-    }
-  }, [viewParam]);
+  // MUST use useDoDontView hook for all cases with Do/Dont examples
+  const { view } = useDoDontView();
 
   // Find case metadata
   const caseMetadata = cases.find((c) => c.slug === 'image-loading-blurhash');
@@ -78,7 +57,7 @@ function ImageLoadingBlurhashContent() {
 
         {/* Toggle */}
         <div className={cn('mb-8')}>
-          <DoDontToggle value={view} onChange={handleViewChange} />
+          <DoDontToggle />
         </div>
 
         {/* Content */}
