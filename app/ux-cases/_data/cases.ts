@@ -13,10 +13,17 @@ export interface CaseMetadata {
 
 export const cases: CaseMetadata[] = [
   {
-    title: "Slack doesn’t ship gray boxes. You shouldn’t either.",
+    title: "Slack doesn't ship gray boxes. You shouldn't either.",
     slug: 'image-loading-blurhash',
     createdAt: '2025-10-19',
     tags: ['images', 'loading'],
+    isTrending: false,
+  },
+  {
+    title: 'How to use splash screen',
+    slug: 'how-to-use-splash-screen',
+    createdAt: '2025-01-27',
+    tags: ['splash', 'loading', 'performance'],
     isTrending: false,
   },
 ];

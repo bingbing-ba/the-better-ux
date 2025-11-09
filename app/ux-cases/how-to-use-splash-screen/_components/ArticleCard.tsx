@@ -20,13 +20,26 @@ interface ArticleCardProps {
 }
 
 /**
+ * Add cache-busting query parameter to image URL to force fresh network request
+ * This ensures the loading difference between Do and Don't is visible on every toggle
+ */
+function addCacheBusting(url: string): string {
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}t=${Date.now()}`;
+}
+
+/**
  * ArticleCard displays thumbnail, title, author, and excerpt.
  * Supports skeleton state while loading and error placeholder on image failure.
+ * Uses cache-busting to ensure fresh network requests for educational demonstration.
  */
 export function ArticleCard({ article, deferImageLoad = false, className }: ArticleCardProps) {
   const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>(
     deferImageLoad ? 'loading' : 'loading'
   );
+
+  // Add cache-busting to image URL to force fresh network request
+  const imageUrl = addCacheBusting(article.thumbnailUrl);
 
   return (
     <article className={cn('flex gap-4 rounded-lg border p-4', className)}>
@@ -45,7 +58,7 @@ export function ArticleCard({ article, deferImageLoad = false, className }: Arti
         )}
         {imageState !== 'error' && (
           <Image
-            src={article.thumbnailUrl}
+            src={imageUrl}
             alt={article.title}
             fill
             sizes="96px"
@@ -58,10 +71,10 @@ export function ArticleCard({ article, deferImageLoad = false, className }: Arti
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col gap-1">
-        <h3 className="font-semibold text-gray-900">{article.title}</h3>
-        <p className="text-sm text-gray-600">By {article.authorName}</p>
-        <p className="text-sm text-gray-700 line-clamp-2">{article.excerpt}</p>
+      <div className="flex flex-1 flex-col gap-1 overflow-hidden">
+        <h3 className="truncate font-semibold text-gray-900">{article.title}</h3>
+        <p className="truncate text-sm text-gray-600">By {article.authorName}</p>
+        <p className="line-clamp-1 text-sm text-gray-700">{article.excerpt}</p>
       </div>
     </article>
   );

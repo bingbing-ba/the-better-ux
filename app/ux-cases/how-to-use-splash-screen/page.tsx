@@ -1,17 +1,17 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { cn } from '@/lib/utils';
 import { DoDontToggle } from '@/app/ux-cases/_components/DoDontToggle';
 import { useDoDontView } from '@/app/ux-cases/_hooks/useDoDontView';
+import { cases } from '@/app/ux-cases/_data/cases';
 import { SplashVideo } from './_components/SplashVideo';
 import { ArticleList } from './_components/ArticleList';
-import { fetchArticles } from './_components/articleService';
+import { getArticles } from './_actions/getArticles';
 import { preloadThumbnails } from './_components/preloadHelper';
-import type { Article } from './_components/ArticleCard';
-import { Button } from '@/components/ui/button';
-
-const MIN_SPLASH_DURATION = 1000; // 1 second
-const MAX_SPLASH_DURATION = 5000; // 5 seconds
 
 export default function HowToUseSplashScreenPage() {
   return (
@@ -25,110 +25,138 @@ function HowToUseSplashScreenContent() {
   // MUST use useDoDontView hook for all cases with Do/Dont examples
   const { view: viewType } = useDoDontView();
   const [showSplash, setShowSplash] = useState(true);
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [dataReady, setDataReady] = useState(false);
-  const [imagesReady, setImagesReady] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
 
-  const splashStartRef = useRef<number>(Date.now());
+  // Always re-fetch via server action on initial load and on every toggle (FR-013, FR-016)
+  const {
+    data: articles,
+    isLoading: isLoadingArticles,
+    error: articlesError,
+  } = useQuery({
+    queryKey: ['articles', viewType], // Include viewType to force re-fetch on toggle
+    queryFn: getArticles,
+    staleTime: 0, // Always consider stale to force fresh fetch
+    gcTime: 0, // Don't cache to ensure fresh fetch on toggle
+  });
 
-  // Fetch articles during splash
+  // Preload images for Do view during splash (FR-004, FR-018)
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const fetchedArticles = await fetchArticles();
-        setArticles(fetchedArticles);
-        setDataReady(true);
+    if (viewType === 'do' && articles && articles.length > 0 && !imagesPreloaded) {
+      preloadThumbnails(articles).then(() => {
+        setImagesPreloaded(true);
+      });
+    } else if (viewType === 'dont') {
+      // Reset preload state for Don't view
+      setImagesPreloaded(false);
+    }
+  }, [viewType, articles, imagesPreloaded]);
 
-        // For "Do" mode, preload thumbnails during splash
-        if (viewType === 'do') {
-          await preloadThumbnails(fetchedArticles);
-          setImagesReady(true);
-        }
-      } catch (err) {
-        console.error('[Splash] Data fetch failed:', err);
-        setError('Oops there is something wrong, try again later');
-        setDataReady(true); // Proceed even on error
-      }
-    };
-
-    loadData();
+  // Reset splash state when view changes (FR-005a, FR-005b)
+  useEffect(() => {
+    setShowSplash(true);
+    setVideoEnded(false);
+    setImagesPreloaded(false);
   }, [viewType]);
 
-  // Splash controller: min 1s, max 5s
-  useEffect(() => {
-    const elapsed = Date.now() - splashStartRef.current;
-    const maxWait = Math.max(0, MAX_SPLASH_DURATION - elapsed);
-
-    // Determine when to dismiss splash
-    const checkDismiss = () => {
-      const now = Date.now();
-      const totalElapsed = now - splashStartRef.current;
-
-      // Max cap reached
-      if (totalElapsed >= MAX_SPLASH_DURATION) {
-        dismissSplash();
-        return;
+  // Handle video end - gate splash dismissal (FR-007, FR-011)
+  const handleVideoEnd = () => {
+    setVideoEnded(true);
+    
+    // Dismiss splash when video ends
+    // For Do: also wait for images to be preloaded
+    // For Don't: dismiss immediately after video ends
+    if (viewType === 'do') {
+      // Wait for images to be preloaded
+      if (imagesPreloaded) {
+        setShowSplash(false);
       }
-
-      // Don't mode: proceed when data ready
-      if (viewType === 'dont' && dataReady && totalElapsed >= MIN_SPLASH_DURATION) {
-        dismissSplash();
-        return;
-      }
-
-      // Do mode: proceed when data + images ready
-      if (viewType === 'do' && dataReady && imagesReady && totalElapsed >= MIN_SPLASH_DURATION) {
-        dismissSplash();
-        return;
-      }
-    };
-
-    const dismissSplash = () => {
+    } else {
+      // Don't: dismiss after video ends (data may still be loading, show skeletons)
       setShowSplash(false);
-    };
+    }
+  };
 
-    // Check periodically
-    const interval = setInterval(checkDismiss, 100);
+  // Dismiss splash for Do view when images are ready after video ended
+  useEffect(() => {
+    if (viewType === 'do' && videoEnded && imagesPreloaded && showSplash) {
+      setShowSplash(false);
+    }
+  }, [viewType, videoEnded, imagesPreloaded, showSplash]);
 
-    // Force dismiss at max cap
-    const maxTimeout = setTimeout(() => {
-      dismissSplash();
-    }, maxWait);
+  // Find case metadata
+  const caseMetadata = cases.find((c) => c.slug === 'how-to-use-splash-screen');
 
-    return () => {
-      clearInterval(interval);
-      clearTimeout(maxTimeout);
-    };
-  }, [dataReady, imagesReady, viewType]);
-
-  if (showSplash) {
-    return <SplashVideo />;
-  }
+  // For Don't: only render page after data is ready and video ends
+  const shouldShowPage = viewType === 'do' || (!showSplash && !isLoadingArticles);
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
-      <header className="mb-8">
-        <h1 className="mb-4 text-3xl font-bold">How to use splash screen</h1>
-        <p className="mb-6 text-gray-700">
-          Compare two approaches: preload during splash (Do) vs. load after splash (Don&apos;t).
-        </p>
-        <DoDontToggle />
-      </header>
+    <>
+      {/* Splash video overlay - removed when showSplash is false */}
+      {showSplash && <SplashVideo onVideoEnd={handleVideoEnd} />}
 
-      <div className="flex flex-col gap-4 py-8">
-        <Button>Primary</Button>
-        <Button disabled>Primary</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="link">Link</Button>
-        <Button variant="destructive">Destructive</Button>
-      </div>
+      {/* Page content - for Do: renders immediately; for Don't: renders after data + video */}
+      {shouldShowPage && (
+        <div className={cn('min-h-screen p-8 font-sans')}>
+          <div className={cn('mx-auto max-w-4xl')}>
+            {/* Back to Home with icon */}
+            <Link
+              href="/"
+              className={cn('mb-6 inline-flex items-center gap-1 text-blue-600 hover:text-blue-800')}
+            >
+              <ChevronLeft className={cn('h-4 w-4')} />
+              <span>Home</span>
+            </Link>
 
-      <main>
-        <ArticleList articles={articles} deferImageLoad={viewType === 'dont'} error={error} />
-      </main>
-    </div>
+            {/* Header */}
+            <header className={cn('mb-8')}>
+              <h1 className={cn('mb-4 text-4xl font-bold')}>
+                {caseMetadata?.title || 'How to use splash screen'}
+              </h1>
+              {caseMetadata?.tags && (
+                <div className={cn('flex gap-2')}>
+                  {caseMetadata.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={cn('rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600')}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </header>
+
+            {/* Toggle */}
+            <div className={cn('mb-8')}>
+              <DoDontToggle />
+            </div>
+
+            {/* Behavior description */}
+            <div className={cn('mb-6 rounded-lg border border-gray-300 bg-gray-50 p-4')}>
+              {viewType === 'do' ? (
+                <p className={cn('text-sm text-gray-700')}>
+                  ✅ <strong>Do:</strong> Images are already loaded when splash is on
+                </p>
+              ) : (
+                <p className={cn('text-sm text-gray-700')}>
+                  ❌ <strong>Don&apos;t:</strong> Images start to load after splash is off
+                </p>
+              )}
+            </div>
+
+            {/* Content */}
+            <div className={cn('rounded-lg border border-gray-200 p-8')}>
+              <ArticleList
+                articles={articles || []}
+                deferImageLoad={viewType === 'dont'}
+                isLoading={isLoadingArticles}
+                error={articlesError ? 'Oops there is something wrong, try again later' : null}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

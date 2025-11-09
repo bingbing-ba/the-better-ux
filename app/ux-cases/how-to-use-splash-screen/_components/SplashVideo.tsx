@@ -3,30 +3,34 @@
 import { useEffect, useRef } from 'react';
 
 interface SplashVideoProps {
-  onVideoReady?: () => void;
+  onVideoEnd?: () => void;
 }
 
 /**
  * Splash screen with black background video.
- * Shows black background immediately even before video is ready to play.
+ * Shows only the video (no loading text overlay).
+ * Dismissal is gated strictly by video end (FR-007, FR-011).
  */
-export function SplashVideo({ onVideoReady }: SplashVideoProps) {
+export function SplashVideo({ onVideoEnd }: SplashVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const handleCanPlay = () => {
-      onVideoReady?.();
-      video.play().catch((err) => {
-        console.warn('[SplashVideo] Autoplay prevented:', err);
-      });
+    const handleEnded = () => {
+      onVideoEnd?.();
     };
 
-    video.addEventListener('canplay', handleCanPlay);
-    return () => video.removeEventListener('canplay', handleCanPlay);
-  }, [onVideoReady]);
+    video.addEventListener('ended', handleEnded);
+    
+    // Auto-play video
+    video.play().catch((err) => {
+      console.warn('[SplashVideo] Autoplay prevented:', err);
+    });
+
+    return () => video.removeEventListener('ended', handleEnded);
+  }, [onVideoEnd]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
@@ -36,15 +40,10 @@ export function SplashVideo({ onVideoReady }: SplashVideoProps) {
         autoPlay
         muted
         playsInline
-        loop
         aria-label="Loading splash screen animation"
       >
-        {/* Placeholder: replace with actual video source when available */}
-        {/* <source src="/splash-video.mp4" type="video/mp4" /> */}
+        <source src="https://storage.googleapis.com/the-better-ux/tbu-logo-splash.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 flex items-center justify-center text-white">
-        <p className="text-lg font-medium">Loading...</p>
-      </div>
     </div>
   );
 }
