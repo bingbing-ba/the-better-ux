@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: How to use splash screen - Contracts
+  version: 1.0.0
+paths:
+  /ux-cases/splash/articles:
+    get:
+      summary: Get a list of articles for the splash demo
+      description: Returns a list of articles whose visible order/selection may vary between reloads.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+          description: Max number of articles to return (default 12)
+        - in: query
+          name: seed
+          schema:
+            type: string
+          description: Optional seed to reproduce order for testing
+      responses:
+        '200':
+          description: A list of articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+  /ux-cases/splash/metrics:
+    post:
+      summary: Submit client timing metrics for demo verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemoRun'
+      responses:
+        '204':
+          description: Accepted
+components:
+  schemas:
+    Article:
+      type: object
+      required: [id, title, authorName, thumbnailUrl, excerpt]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+          minLength: 1
+          maxLength: 160
+        authorName:
+          type: string
+          minLength: 1
+          maxLength: 80
+        thumbnailUrl:
+          type: string
+          format: uri
+        excerpt:
+          type: string
+          minLength: 1
+          maxLength: 320
+    DemoRun:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        splashShownAt:
+          type: string
+          format: date-time
+        dataLoadedAt:
+          type: string
+          format: date-time
+          nullable: true
+        splashDismissedAt:
+          type: string
+          format: date-time
+        imagesVisibleAt_Do:
+          type: string
+          format: date-time
+          nullable: true
+        imagesVisibleAt_Dont:
+          type: string
+          format: date-time
+          nullable: true

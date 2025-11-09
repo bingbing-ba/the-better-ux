@@ -3,26 +3,28 @@
 import { XCircle, CheckCircle } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
+import { useDoDontView } from '../_hooks/useDoDontView';
 
 export type ViewType = 'do' | 'dont';
 
 interface DoDontToggleProps {
-  value: ViewType;
-  onChange: (value: ViewType) => void;
   className?: string;
 }
 
 /**
  * Shared Do/Don't toggle component
- * Defaults to "Don't" when no view is specified
- * Can be controlled via URL query param: ?view=do|dont
+ * Uses useDoDontView hook to manage search params
+ * Defaults to "Don't" when no view is specified in URL
+ * Updates URL query param: ?view=do|dont
  */
-export function DoDontToggle({ value, onChange, className }: DoDontToggleProps) {
+export function DoDontToggle({ className }: DoDontToggleProps) {
+  const { view, setView } = useDoDontView();
+
   return (
     <div className={cn('flex gap-2', className)}>
       <Toggle
-        pressed={value === 'dont'}
-        onPressedChange={(pressed) => pressed && onChange('dont')}
+        pressed={view === 'dont'}
+        onPressedChange={(pressed) => pressed && setView('dont')}
         aria-label="Show Don&apos;t example"
         className={cn('data-[state=on]:bg-red-100 data-[state=on]:text-red-900')}
       >
@@ -30,8 +32,8 @@ export function DoDontToggle({ value, onChange, className }: DoDontToggleProps) 
         Don&apos;t
       </Toggle>
       <Toggle
-        pressed={value === 'do'}
-        onPressedChange={(pressed) => pressed && onChange('do')}
+        pressed={view === 'do'}
+        onPressedChange={(pressed) => pressed && setView('do')}
         aria-label="Show Do example"
         className={cn('data-[state=on]:bg-green-100 data-[state=on]:text-green-900')}
       >
