@@ -16,16 +16,17 @@ export interface Article {
 interface ArticleCardProps {
   article: Article;
   deferImageLoad?: boolean;
+  cacheBustTimestamp?: number;
   className?: string;
 }
 
 /**
- * Add cache-busting query parameter to image URL to force fresh network request
+ * Add cache-busting query parameter to image URL with a specific timestamp
  * This ensures the loading difference between Do and Don't is visible on every toggle
  */
-function addCacheBusting(url: string): string {
+function addCacheBusting(url: string, timestamp: number): string {
   const separator = url.includes('?') ? '&' : '?';
-  return `${url}${separator}t=${Date.now()}`;
+  return `${url}${separator}t=${timestamp}`;
 }
 
 /**
@@ -33,13 +34,15 @@ function addCacheBusting(url: string): string {
  * Supports skeleton state while loading and error placeholder on image failure.
  * Uses cache-busting to ensure fresh network requests for educational demonstration.
  */
-export function ArticleCard({ article, deferImageLoad = false, className }: ArticleCardProps) {
+export function ArticleCard({ article, deferImageLoad = false, cacheBustTimestamp, className }: ArticleCardProps) {
   const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>(
     deferImageLoad ? 'loading' : 'loading'
   );
 
+  // Use provided timestamp or generate new one (fallback for Don't view)
+  const timestamp = cacheBustTimestamp ?? Date.now();
   // Add cache-busting to image URL to force fresh network request
-  const imageUrl = addCacheBusting(article.thumbnailUrl);
+  const imageUrl = addCacheBusting(article.thumbnailUrl, timestamp);
 
   return (
     <article className={cn('flex gap-4 rounded-lg border p-4', className)}>
