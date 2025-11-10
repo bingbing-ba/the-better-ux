@@ -86,7 +86,7 @@ const MOCK_ARTICLES: Article[] = [
  */
 export async function getArticles(): Promise<Article[]> {
   // Intentional 1.5s delay per FR-017
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   // Shuffle for variance between reloads
   const shuffled = [...MOCK_ARTICLES];
