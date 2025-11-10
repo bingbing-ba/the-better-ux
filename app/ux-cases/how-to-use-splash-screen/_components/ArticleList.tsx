@@ -8,6 +8,7 @@ interface ArticleListProps {
   deferImageLoad?: boolean;
   isLoading?: boolean;
   error?: string | null;
+  cacheBustTimestamp?: number;
   className?: string;
 }
 
@@ -20,6 +21,7 @@ export function ArticleList({
   deferImageLoad = false,
   isLoading = false,
   error = null,
+  cacheBustTimestamp,
   className,
 }: ArticleListProps) {
   // Error state
@@ -50,7 +52,12 @@ export function ArticleList({
   return (
     <div className={cn('space-y-4', className)} role="list">
       {articles.map((article) => (
-        <ArticleCard key={article.id} article={article} deferImageLoad={deferImageLoad} />
+        <ArticleCard
+          key={article.id}
+          article={article}
+          deferImageLoad={deferImageLoad}
+          cacheBustTimestamp={cacheBustTimestamp}
+        />
       ))}
     </div>
   );
