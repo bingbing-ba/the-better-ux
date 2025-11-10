@@ -62,8 +62,8 @@ export function ArticleCard({ article, deferImageLoad = false, className }: Arti
             alt={article.title}
             fill
             sizes="96px"
+            priority
             className={cn('object-cover', imageState === 'loading' && 'opacity-0')}
-            loading={deferImageLoad ? 'lazy' : 'eager'}
             onLoad={() => setImageState('loaded')}
             onError={() => setImageState('error')}
           />
