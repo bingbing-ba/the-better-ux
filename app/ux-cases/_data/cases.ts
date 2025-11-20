@@ -26,6 +26,13 @@ export const cases: CaseMetadata[] = [
     tags: ['splash', 'loading', 'performance'],
     isTrending: false,
   },
+  {
+    title: 'Route Handlers vs Server Actions for Data Fetching',
+    slug: 'route-handlers-vs-server-actions',
+    createdAt: '2025-11-15',
+    tags: ['data-fetching', 'api', 'performance', 'react-query'],
+    isTrending: false,
+  },
 ];
 
 /**
